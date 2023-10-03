@@ -7,25 +7,33 @@ using UnityEngine;
    Things that are not dependent to run per tick on outside data can also be normal MonoBehaviours. */
 public class Executor : MonoBehaviour {
     private Player player;
+    private PlayerMovement playerMovement;
+    private InputManager inputManager;
 
     private void Start() {
+        inputManager = new InputManager();
+        inputManager.Initialize();
         player = new Player();
         player.Initialize();
+        playerMovement = new PlayerMovement(player, inputManager);
+        playerMovement.Initialize();
     }
 
     private void FixedUpdate() {
         player.FixedTick();
+        playerMovement.FixedTick();
     }
 
     private void Update() {
+        inputManager.Tick();
         player.Tick();
-
     }
 
     private void OnDestroy() {
+        playerMovement.Terminate();
         player.Terminate();
+        inputManager.Terminate();
     }
-
 }
 
 /* Executor Interfaces */
