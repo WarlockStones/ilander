@@ -1,13 +1,12 @@
-using System;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-/* The Game Manager. Loads settings, scenes, state, and Executor. */
-public class Game{
+// The EntryPoint (main) of the game. This is always what will be initialized on start of the game
+public class EntryPoint{
+
     [RuntimeInitializeOnLoadMethod]
     public static void InitGame() {
         Debug.Log("Game!");
+
         // var gameStatePrefab = Resources.Load<GameState>("GameState");
         // var gameState = GameObject.Instantiate(gameStatePrefab);
         // gameState.Initialize();
@@ -18,8 +17,13 @@ public class Game{
         // var gameState = go.AddComponent<GameState>();
         // gameState.Initialize()
 
+        /* The Game Manager. Loads settings, scenes, game state, and Executor. ???*/
         /* Initialize everything that needs to be in every scene */
-        var executorPrefab = Resources.Load<Executor>("Executor");
-        var executor = GameObject.Instantiate(executorPrefab);
+        var executorGO = new GameObject();
+        executorGO.name = "Executor";
+        var executor = executorGO.AddComponent<Executor>();
+
+
     }
 }
+
