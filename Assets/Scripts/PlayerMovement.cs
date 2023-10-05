@@ -7,8 +7,8 @@ public class PlayerMovement : IInitialize, IFixedTick, ITerminate {
     private Transform playerTransform;
     private InputManager inputManager;
 
-    private GameObject thrusterR;
-    private GameObject thrusterL;
+    private Transform thrusterR;
+    private Transform thrusterL;
 
     public PlayerMovement(Player player, InputManager inputManager) {
         this.player = player;
@@ -18,30 +18,23 @@ public class PlayerMovement : IInitialize, IFixedTick, ITerminate {
         rb = player.rb;
         playerTransform = player.rb.transform;
 
-        // Calculate positions for where to put thrusters
-        var cCollider = rb.GetComponent<CircleCollider2D>();
-        Vector2 topOfShip = rb.transform.position;
-        topOfShip += new Vector2(cCollider.offset.x, cCollider.offset.y + cCollider.radius);
-
-        thrusterR = new GameObject("thruster_r");
-        thrusterR.transform.parent = playerTransform;
-        thrusterR.transform.position = new Vector2(topOfShip.x + cCollider.radius, topOfShip.y);
-
-        thrusterL = new GameObject("thruster_l");
-        thrusterL.transform.parent = playerTransform;
-        thrusterL.transform.position = new Vector2(topOfShip.x - cCollider.radius, topOfShip.y);
-
-
+        // Find thruster else post Error. The player prefab is not valid for PlayerMovement
+        thrusterR = playerTransform.Find("thruster_r");
+        thrusterL = playerTransform.Find("thruster_l");
+        if(thrusterR == null || thrusterL == null) {
+            Debug.LogError("Could not find Player Thruster transforms named thruster_r or thruster_l");
+        }
     }
+
     public void FixedTick() {
         switch(inputManager.moveVector.x) {
             case < 0:
                 // Move to the left
-                rb.AddForceAtPosition(thrusterL.transform.right * -1, thrusterL.transform.position);
+                rb.AddForceAtPosition(thrusterL.right * -1, thrusterL.position);
                 break;
             case > 0:
                 // Move to the right
-                rb.AddForceAtPosition(thrusterR.transform.right, thrusterR.transform.position);
+                rb.AddForceAtPosition(thrusterR.right, thrusterR.position);
                 break;
         }
         if(inputManager.moveVector.y > 0) {

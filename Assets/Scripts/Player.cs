@@ -17,6 +17,8 @@ public class Player : ITick, IFixedTick, IInitialize, ITerminate {
     public void Initialize() {
         var playerPrefab = Resources.Load<GameObject>("Player");
         // TODO: Create player spawn point. Maybe use tags?
+        // GameObject.Find("SpawnPoint");
+        // Debug.Log(Game.spawnPoint);
         player = GameObject.Instantiate(playerPrefab, new Vector3(7f, 4f, 0f), new Quaternion());
         rb = player.GetComponent<Rigidbody2D>();
     }
