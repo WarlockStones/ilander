@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 /* This is (almost) the ONLY gameObject that inherits from MonoBehaviour.
@@ -9,24 +8,32 @@ public class Executor : MonoBehaviour {
     private Player player;
     private PlayerMovement playerMovement;
     private InputManager inputManager;
+    private LevelManager levelManager;
+
+    private void Awake() {
+
+    }
 
     private void Start() {
         inputManager = new InputManager();
         inputManager.Initialize();
-        player = new Player();
+        levelManager = new LevelManager();
+        levelManager.Initialize();
+        player = new Player(levelManager);
         player.Initialize();
         playerMovement = new PlayerMovement(player, inputManager);
         playerMovement.Initialize();
     }
 
     private void FixedUpdate() {
-        player.FixedTick();
         playerMovement.FixedTick();
     }
 
     private void Update() {
         inputManager.Tick();
         player.Tick();
+        levelManager.Tick();
+        Debug.Log("Executing");
     }
 
     private void OnDestroy() {
@@ -35,6 +42,7 @@ public class Executor : MonoBehaviour {
         inputManager.Terminate();
     }
 }
+
 
 /* Executor Interfaces */
 public interface ITick {

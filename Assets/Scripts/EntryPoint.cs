@@ -1,12 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // The EntryPoint (main) of the game. This is always what will be initialized on start of the game
-public class EntryPoint{
+public class EntryPoint {
+
 
     [RuntimeInitializeOnLoadMethod]
     public static void InitGame() {
-        Debug.Log("Game!");
-
         // var gameStatePrefab = Resources.Load<GameState>("GameState");
         // var gameState = GameObject.Instantiate(gameStatePrefab);
         // gameState.Initialize();
@@ -19,11 +19,13 @@ public class EntryPoint{
 
         /* The Game Manager. Loads settings, scenes, game state, and Executor. ???*/
         /* Initialize everything that needs to be in every scene */
-        var executorGO = new GameObject();
-        executorGO.name = "Executor";
-        var executor = executorGO.AddComponent<Executor>();
-
-
+        Debug.Log("Game OnLoad Method!!!");
+        GameState gameState = new GameState();
+        GameState.InitExecutor();
     }
+
+    // >> This should probably happen on scene change!
+    // Maybe it probably should not be the Entry point that does this.
+    // It should be another class! Game or GameState?
 }
 
