@@ -19,7 +19,6 @@ public class EntryPoint {
 
         /* The Game Manager. Loads settings, scenes, game state, and Executor. ???*/
         /* Initialize everything that needs to be in every scene */
-        Debug.Log("Game OnLoad Method!!!");
         GameState gameState = new GameState();
         GameState.InitExecutor();
     }
@@ -28,4 +27,3 @@ public class EntryPoint {
     // Maybe it probably should not be the Entry point that does this.
     // It should be another class! Game or GameState?
 }
-

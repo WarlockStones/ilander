@@ -19,7 +19,7 @@ public class Player : ITick, IInitialize, ITerminate {
     private BoxCollider2D feet;
     private CircleCollider2D hurtBox;
 
-    private bool isInEndZone = false;
+    private bool touchedEndZone = false;
     private bool isgroundColliderNull;
 
     public Player(LevelManager levelManager) {
@@ -40,15 +40,14 @@ public class Player : ITick, IInitialize, ITerminate {
 
     public void Tick() {
         // Player manages itself. It checks if it is triggering an end. Then calls the levelManager to end
-        if(!isInEndZone && feet.IsTouching(levelManager.endTrigger)) {
+        if(!touchedEndZone && feet.IsTouching(levelManager.endTrigger)) {
             Debug.Log("End reached! Disabling inputs!");
             rb.gravityScale = 0.6f; // Gives better feeling. That of landing and not bouncing
             GameState.goalReached = true;
-            isInEndZone = true;
+            touchedEndZone = true;
         }
         if(hurtBox.IsTouching(levelManager.groundCollider)) {
             Debug.Log("DEATH!");
-            // Pause game!
             GameState.playerIsDead = true;
         }
     }

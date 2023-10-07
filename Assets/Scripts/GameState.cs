@@ -14,6 +14,7 @@ public class GameState {
 
     public GameState() {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
     }
 
     public static void InitExecutor() {
@@ -23,6 +24,7 @@ public class GameState {
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) {
+        Time.timeScale = 1;
         currentSceneIndex = scene.buildIndex;
         ResetStateVariables();
         InitExecutor();

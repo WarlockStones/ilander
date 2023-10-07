@@ -1,5 +1,6 @@
 // Keeps track on the current level, and objects of importance in it. spawn_point, end_zone, etc.
 
+using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -52,7 +53,16 @@ public class LevelManager : IInitialize, ITick{
                     SceneManager.LoadScene(GameState.currentSceneIndex);
                 }
             }
-            endTimer += Time.deltaTime;
+            endTimer += Time.unscaledDeltaTime; // Unscaled to run while paused
+        }
+
+        if(GameState.playerIsDead) {
+            Time.timeScale = 0;
+
+            if(endTimer > 1.5) {
+                SceneManager.LoadScene(GameState.currentSceneIndex);
+            }
+            endTimer += Time.unscaledDeltaTime;
         }
     }
 }

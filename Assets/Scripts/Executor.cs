@@ -15,6 +15,12 @@ public class Executor : MonoBehaviour {
     }
 
     private void Start() {
+        if(GameState.currentSceneIndex == 0) {
+            // We are staring main menu
+            Debug.Log("STARTING MAIN MENU!");
+
+            return;
+        }
         inputManager = new InputManager();
         inputManager.Initialize();
         levelManager = new LevelManager();
@@ -26,10 +32,13 @@ public class Executor : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        if (GameState.currentSceneIndex == 0) return;
         playerMovement.FixedTick();
     }
 
     private void Update() {
+
+        if (GameState.currentSceneIndex == 0) return;
         inputManager.Tick();
         player.Tick();
         levelManager.Tick();
@@ -37,6 +46,8 @@ public class Executor : MonoBehaviour {
     }
 
     private void OnDestroy() {
+
+        if (GameState.currentSceneIndex == 0) return;
         playerMovement.Terminate();
         player.Terminate();
         inputManager.Terminate();
