@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelManager : IInitialize, ITick{
+public class LevelManager : IInitialize, ITick {
     public Vector3 spawnPoint = new Vector3(0, 0, 0);
     public BoxCollider2D endTrigger;
     public EdgeCollider2D groundCollider;
@@ -44,14 +44,8 @@ public class LevelManager : IInitialize, ITick{
     }
     public void Tick() {
         if(GameState.goalReached) {
-            // Start ticking endTimer
-            if(endTimer > 2) {
-                // Check if player is alive > If true > Change Level to next level
-                if(!GameState.playerIsDead) {
-                    // Load next scene
-                    GameState.currentSceneIndex++;
-                    SceneManager.LoadScene(GameState.currentSceneIndex);
-                }
+            if(endTimer > 2 && !GameState.playerIsDead) {
+                LoadNextLevel();
             }
             endTimer += Time.unscaledDeltaTime; // Unscaled to run while paused
         }
@@ -64,5 +58,10 @@ public class LevelManager : IInitialize, ITick{
             }
             endTimer += Time.unscaledDeltaTime;
         }
+    }
+
+    public void LoadNextLevel() {
+        GameState.currentSceneIndex++;
+        SceneManager.LoadScene(GameState.currentSceneIndex);
     }
 }

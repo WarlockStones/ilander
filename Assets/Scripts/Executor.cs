@@ -9,18 +9,35 @@ public class Executor : MonoBehaviour {
     private PlayerMovement playerMovement;
     private InputManager inputManager;
     private LevelManager levelManager;
+    private UIManager uiManager;
+
+    private bool isMenuState;
+
+    public Executor() {
+        // For now we only have one scene for menuState. So we can hard-code it (ugly)
+        if(GameState.currentSceneIndex == 0) {
+            isMenuState = true;
+        }
+    }
 
     private void Awake() {
 
     }
 
     private void Start() {
-        if(GameState.currentSceneIndex == 0) {
-            // We are staring main menu
-            Debug.Log("STARTING MAIN MENU!");
+        levelManager = new LevelManager();
+        uiManager = new UIManager(levelManager);
 
-            return;
+        if (GameState.currentSceneIndex == 0)
+        {
+            uiManager.InstantiateMainMenu();
         }
+        if(!isMenuState) {
+            InitializePlayState();
+        }
+    }
+
+    public void InitializePlayState() {
         inputManager = new InputManager();
         inputManager.Initialize();
         levelManager = new LevelManager();
@@ -32,22 +49,22 @@ public class Executor : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (GameState.currentSceneIndex == 0) return;
+        if(isMenuState) return;
         playerMovement.FixedTick();
     }
 
     private void Update() {
+        uiManager.Tick();
 
-        if (GameState.currentSceneIndex == 0) return;
+        if(isMenuState) return;
         inputManager.Tick();
         player.Tick();
         levelManager.Tick();
-        Debug.Log("Executing");
     }
 
     private void OnDestroy() {
 
-        if (GameState.currentSceneIndex == 0) return;
+        if(isMenuState) return;
         playerMovement.Terminate();
         player.Terminate();
         inputManager.Terminate();
