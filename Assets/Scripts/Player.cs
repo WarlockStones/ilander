@@ -20,14 +20,12 @@ public class Player : ITick, IInitialize, ITerminate {
     private CircleCollider2D hurtBox;
 
     private bool touchedEndZone = false;
-    private bool isgroundColliderNull;
 
     public Player(LevelManager levelManager) {
         this.levelManager = levelManager;
     }
 
     private void Start() {
-        isgroundColliderNull = levelManager.groundCollider == null;
     }
     public void Initialize() {
         var playerPrefab = Resources.Load<GameObject>("Player");
@@ -47,7 +45,6 @@ public class Player : ITick, IInitialize, ITerminate {
             touchedEndZone = true;
         }
         if(hurtBox.IsTouching(levelManager.groundCollider)) {
-            Debug.Log("DEATH!");
             GameState.playerIsDead = true;
         }
     }

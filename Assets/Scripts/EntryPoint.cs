@@ -22,8 +22,4 @@ public class EntryPoint {
         GameState gameState = new GameState();
         GameState.InitExecutor();
     }
-
-    // >> This should probably happen on scene change!
-    // Maybe it probably should not be the Entry point that does this.
-    // It should be another class! Game or GameState?
 }

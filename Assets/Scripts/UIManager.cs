@@ -5,8 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-// This is just because I do not want to use MonoBehaviour.
-// A better solution would be to use an UICanvasReferences MonoBehaviour component that just holds all public references
+/* This is not very extendable. Break the UIManager into smaller parts. */
+/* A better solution than to instantiate the canvas parts would be to have a
+   MonoBehaviour UICanvasReferences script on the prefab which just hooks up
+   to all of the different parts, buttons, etc. Then reference that from here. */
 public class UIManager : ITick {
     // private GameObject mainMenuPrefab;
     private bool fadeOutMenu = false;
@@ -32,7 +34,6 @@ public class UIManager : ITick {
         canvasScaler = mainMenu.GetComponent<CanvasScaler>();
     }
     private void OnStartClick() {
-        Debug.Log("START!!!");
         fadeOutMenu = true;
     }
 
