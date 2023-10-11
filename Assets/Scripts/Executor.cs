@@ -10,7 +10,7 @@ public class Executor : MonoBehaviour {
     private PlayerPowers playerPowers;
     private InputManager inputManager;
     private LevelManager levelManager;
-    private UIManager uiManager;
+    public UIManager uiManager; // public so that GameState can read it! And avoid static variables
 
     private bool isMenuState;
 
@@ -43,6 +43,7 @@ public class Executor : MonoBehaviour {
         inputManager.Initialize();
         levelManager = new LevelManager();
         levelManager.Initialize();
+        uiManager.Initialize();
         player = new Player(levelManager);
         player.Initialize();
         playerMovement = new PlayerMovement(player, inputManager);

@@ -45,7 +45,7 @@ public class PlayerPowers : ITick, IInitialize {
             case Player.PowerUps.SHIELD:
                 powerSpriteRenderer.color = new Color(255, 255, 0, 1);
                 AnimateHeldPower();
-                if(InputManager.useUsed > 0) {
+                if(InputManager.usePressed > 0) {
                     player.availablePower = Player.PowerUps.NONE;
                     ActivateShield();
                 }

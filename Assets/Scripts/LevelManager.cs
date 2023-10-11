@@ -44,6 +44,7 @@ public class LevelManager : IInitialize, ITick {
             }
         }
 
+        // I would prefer to not utilize Unity Editor tags. But, this worked better than to loop and compare name string
         GameObject[] powerUps = GameObject.FindGameObjectsWithTag("PowerUp");
         foreach(GameObject o in powerUps) {
             BoxCollider2D col = o.GetComponent<BoxCollider2D>();
