@@ -49,8 +49,8 @@ public class Bunker : IInitialize, ITick {
         }
 
         // Determines which turret should fire at the target. Using vector dot product!
-        var dotProd = Vector3.Dot(bunker.transform.position, player.transform.position);
-        if(dotProd < 0) {
+        var dotProd = Vector2.Dot(bunker.transform.position - player.transform.position, bunker.transform.right);
+        if(dotProd > 0) {
             activeCannon = bunker.transform.GetChild(0).transform; // Left
         }
         else {
