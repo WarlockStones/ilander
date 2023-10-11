@@ -42,16 +42,6 @@ public class Player : ITick, IInitialize, ITerminate {
         feet = player.GetComponent<BoxCollider2D>();
         hurtBox = player.GetComponent<CapsuleCollider2D>();
         pickUpCollider = player.GetComponent<CircleCollider2D>();
-
-
-        // It makes more sense to have the Camera be part of the player. Rather than having it in LevelManager. I don't like levelManager...
-        var mainCamPrefab = Resources.Load<GameObject>("MainCamera");
-        var mainCam = UnityEngine.Object.Instantiate(mainCamPrefab);
-
-        var virtualCamPrefab = Resources.Load<GameObject>("VirtualCamera");
-        var virtualCam = UnityEngine.Object.Instantiate(virtualCamPrefab);
-
-        virtualCam.GetComponent<CinemachineVirtualCamera>().m_Follow = player.transform;
     }
 
     public void Tick() {

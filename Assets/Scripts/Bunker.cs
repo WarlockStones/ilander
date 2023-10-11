@@ -10,6 +10,7 @@ public class Bunker : IInitialize, ITick {
     private GameObject bullet;
     private float shootTimer;
     private float shootCD = 2f;
+    private float aggroRange = 21;
 
     private GameObject bunker;
 
@@ -42,6 +43,11 @@ public class Bunker : IInitialize, ITick {
             return;
         }
 
+        float dist = Vector3.Distance(bunker.transform.position, player.rb.position);
+        if(dist > aggroRange) {
+            return;
+        }
+
         // Determines which turret should fire at the target. Using vector dot product!
         var dotProd = Vector3.Dot(bunker.transform.position, player.rb.position);
         if(dotProd < 0) {
@@ -60,7 +66,7 @@ public class Bunker : IInitialize, ITick {
 
         // TODO: Improve this with Pooling - Rasmus R.
         if(shootTimer > shootCD) {
-            bullet = GameObject.Instantiate(bulletPrefab);
+            bullet = UnityEngine.Object.Instantiate(bulletPrefab);
             bullet.transform.position = activeCannon.transform.position;
             bullet.transform.rotation = lookAtRotation;
             bullet.GetComponent<Rigidbody2D>().AddForce(bullet.transform.up * 15, ForceMode2D.Impulse);

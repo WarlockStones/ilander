@@ -6,6 +6,7 @@ using UnityEngine;
    Things that are not dependent to run per tick on outside data can also be normal MonoBehaviours. */
 public class Executor : MonoBehaviour {
     private Player player;
+    private PlayerCamera playerCamera;
     private PlayerMovement playerMovement;
     private PlayerPowers playerPowers;
     private InputManager inputManager;
@@ -47,6 +48,8 @@ public class Executor : MonoBehaviour {
         uiManager.Initialize();
         player = new Player(levelManager);
         player.Initialize();
+        playerCamera = new PlayerCamera(player);
+        playerCamera.Initialize();
         playerMovement = new PlayerMovement(player, inputManager);
         playerMovement.Initialize();
         playerPowers = new PlayerPowers(player);

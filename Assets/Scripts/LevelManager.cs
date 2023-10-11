@@ -13,13 +13,8 @@ public class LevelManager : IInitialize, ITick {
     public EdgeCollider2D groundCollider;
     private float endTimer = 0;
     public readonly List<BoxCollider2D> powerUpColliders = new List<BoxCollider2D>();
-    public GameObject[] bunkers;
 
     public void Initialize() {
-        // var gameStatePrefab = Resources.Load<GameState>("GameState");
-        // var gameState = GameObject.Instantiate(gameStatePrefab);
-        // gameState.Initialize();
-
         var spawnObj = GameObject.Find("spawn_point");
         if(spawnObj == null) {
             Debug.LogWarning("LevelManager could not find object called 'spawn_point'. Defaulting to 0,0,0");
