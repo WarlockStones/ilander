@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ public class Player : ITick, IInitialize, ITerminate {
 
     private LevelManager levelManager;
     private BoxCollider2D feet;
-    private CapsuleCollider2D hurtBox;
+    public CapsuleCollider2D hurtBox;
     private CircleCollider2D pickUpCollider;
     private List<BoxCollider2D> powerUpColliders;
 
@@ -41,6 +42,16 @@ public class Player : ITick, IInitialize, ITerminate {
         feet = player.GetComponent<BoxCollider2D>();
         hurtBox = player.GetComponent<CapsuleCollider2D>();
         pickUpCollider = player.GetComponent<CircleCollider2D>();
+
+
+        // It makes more sense to have the Camera be part of the player. Rather than having it in LevelManager. I don't like levelManager...
+        var mainCamPrefab = Resources.Load<GameObject>("MainCamera");
+        var mainCam = UnityEngine.Object.Instantiate(mainCamPrefab);
+
+        var virtualCamPrefab = Resources.Load<GameObject>("VirtualCamera");
+        var virtualCam = UnityEngine.Object.Instantiate(virtualCamPrefab);
+
+        virtualCam.GetComponent<CinemachineVirtualCamera>().m_Follow = player.transform;
     }
 
     public void Tick() {
@@ -52,8 +63,8 @@ public class Player : ITick, IInitialize, ITerminate {
             touchedEndZone = true;
         }
 
-        if(hurtBox.IsTouching(levelManager.groundCollider) && activePower != PowerUps.SHIELD) {
-            GameState.playerIsDead = true;
+        if(hurtBox.IsTouching(levelManager.groundCollider)) {
+            Hit();
         }
 
         foreach(BoxCollider2D col in powerUpColliders) {
@@ -63,6 +74,14 @@ public class Player : ITick, IInitialize, ITerminate {
             }
         }
 
+    }
+
+    ///  Attempt to kill player
+    public void Hit() {
+        if(activePower == PowerUps.SHIELD) {
+            return;
+        }
+        GameState.playerIsDead = true;
     }
 
     // To scale in the future with more PowerUps!

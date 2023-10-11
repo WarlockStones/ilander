@@ -11,6 +11,7 @@ public class Executor : MonoBehaviour {
     private InputManager inputManager;
     private LevelManager levelManager;
     public UIManager uiManager; // public so that GameState can read it! And avoid static variables
+    private Bunker bunker;
 
     private bool isMenuState;
 
@@ -50,6 +51,8 @@ public class Executor : MonoBehaviour {
         playerMovement.Initialize();
         playerPowers = new PlayerPowers(player);
         playerPowers.Initialize();
+        bunker = new Bunker(player);
+        bunker.Initialize();
     }
 
     private void FixedUpdate() {
@@ -65,6 +68,7 @@ public class Executor : MonoBehaviour {
         player.Tick();
         playerPowers.Tick();
         levelManager.Tick();
+        bunker.Tick();
     }
 
     private void OnDestroy() {

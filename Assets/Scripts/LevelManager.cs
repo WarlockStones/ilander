@@ -1,4 +1,5 @@
 // Keeps track on the current level, and objects of importance in it. spawn_point, end_zone, etc.
+// This is a terrible class. It is far too bloated and should be borken into smaller pieces
 
 using Cinemachine;
 using System.Collections.Generic;
@@ -11,10 +12,14 @@ public class LevelManager : IInitialize, ITick {
     public BoxCollider2D endTrigger;
     public EdgeCollider2D groundCollider;
     private float endTimer = 0;
-    public List<BoxCollider2D> powerUpColliders = new List<BoxCollider2D>();
-    // public BoxCollider2D[] powerUpColliders;
+    public readonly List<BoxCollider2D> powerUpColliders = new List<BoxCollider2D>();
+    public GameObject[] bunkers;
 
     public void Initialize() {
+        // var gameStatePrefab = Resources.Load<GameState>("GameState");
+        // var gameState = GameObject.Instantiate(gameStatePrefab);
+        // gameState.Initialize();
+
         var spawnObj = GameObject.Find("spawn_point");
         if(spawnObj == null) {
             Debug.LogWarning("LevelManager could not find object called 'spawn_point'. Defaulting to 0,0,0");
@@ -45,6 +50,7 @@ public class LevelManager : IInitialize, ITick {
         }
 
         // I would prefer to not utilize Unity Editor tags. But, this worked better than to loop and compare name string
+        // Preferable it would be a MonoBehaviour component that holds an "interface tag"
         GameObject[] powerUps = GameObject.FindGameObjectsWithTag("PowerUp");
         foreach(GameObject o in powerUps) {
             BoxCollider2D col = o.GetComponent<BoxCollider2D>();
@@ -54,6 +60,8 @@ public class LevelManager : IInitialize, ITick {
             }
             powerUpColliders.Add(col);
         }
+
+        // bunkers = GameObject.FindGameObjectsWithTag("Bunker");
     }
     public void Tick() {
         if(GameState.goalReached) {
