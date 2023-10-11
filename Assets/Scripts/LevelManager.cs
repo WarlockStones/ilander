@@ -1,12 +1,9 @@
-// Keeps track on the current level, and objects of importance in it. spawn_point, end_zone, etc.
-// This is a terrible class. It is far too bloated and should be borken into smaller pieces
-
-using Cinemachine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Keeps track on the current level, and objects of importance in it. spawn_point, end_zone, etc.
+// This is a terrible class. It is far too bloated and should be broken into smaller pieces
 public class LevelManager : IInitialize, ITick {
     public Vector3 spawnPoint = new Vector3(0, 0, 0);
     public BoxCollider2D endTrigger;

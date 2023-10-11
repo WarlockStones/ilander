@@ -1,7 +1,3 @@
-using Cinemachine;
-using Unity;
-using UnityEditor;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.UI;
 

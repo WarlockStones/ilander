@@ -26,14 +26,15 @@ public class Executor : MonoBehaviour {
     private void Start() {
         levelManager = new LevelManager();
         uiManager = new UIManager(levelManager);
-
-        if (GameState.currentSceneIndex == 0)
-        {
+        if(GameState.currentSceneIndex == 0) {
             uiManager.InstantiateMainMenu();
         }
-        if(!isMenuState) {
-            InitializePlayState();
+        if(isMenuState) {
+            return;
         }
+
+
+        InitializePlayState();
     }
 
     public void InitializePlayState() {
@@ -55,14 +56,19 @@ public class Executor : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if(isMenuState) return;
+        if(isMenuState) {
+            return;
+        }
+
         playerMovement.FixedTick();
     }
 
     private void Update() {
         uiManager.Tick();
+        if(isMenuState) {
+            return;
+        }
 
-        if(isMenuState) return;
         inputManager.Tick();
         player.Tick();
         playerPowers.Tick();
@@ -71,8 +77,10 @@ public class Executor : MonoBehaviour {
     }
 
     private void OnDestroy() {
+        if(isMenuState) {
+            return;
+        }
 
-        if(isMenuState) return;
         playerMovement.Terminate();
         player.Terminate();
         inputManager.Terminate();

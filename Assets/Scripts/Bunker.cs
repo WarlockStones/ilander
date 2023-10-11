@@ -1,7 +1,5 @@
-using Cinemachine;
 using System.Threading.Tasks;
 using UnityEngine;
-using Object = System.Object;
 
 public class Bunker : IInitialize, ITick {
     private Player player;
