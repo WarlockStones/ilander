@@ -15,13 +15,13 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "jump",
-                    "type": "Button",
-                    "id": "760dd5ee-9c0f-4a24-ae73-1dd1cb7a3612",
+                    "name": "use",
+                    "type": "Value",
+                    "id": "fc3a7b14-f87c-454d-a6cc-51137698bd86",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -137,12 +137,12 @@
                 },
                 {
                     "name": "",
-                    "id": "0e65bb57-8e29-46e4-9cda-bd7ca0b54667",
+                    "id": "ff60cbe2-d51e-4072-835c-21dbdc004fba",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "jump",
+                    "action": "use",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

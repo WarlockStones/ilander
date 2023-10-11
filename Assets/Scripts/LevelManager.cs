@@ -1,6 +1,7 @@
 // Keeps track on the current level, and objects of importance in it. spawn_point, end_zone, etc.
 
 using Cinemachine;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,8 @@ public class LevelManager : IInitialize, ITick {
     public BoxCollider2D endTrigger;
     public EdgeCollider2D groundCollider;
     private float endTimer = 0;
+    public List<BoxCollider2D> powerUpColliders = new List<BoxCollider2D>();
+    // public BoxCollider2D[] powerUpColliders;
 
     public void Initialize() {
         var spawnObj = GameObject.Find("spawn_point");
@@ -41,6 +44,15 @@ public class LevelManager : IInitialize, ITick {
             }
         }
 
+        GameObject[] powerUps = GameObject.FindGameObjectsWithTag("PowerUp");
+        foreach(GameObject o in powerUps) {
+            BoxCollider2D col = o.GetComponent<BoxCollider2D>();
+            if(col == null) {
+                Debug.LogWarning("'power_up' found but it is missing a BoxCollider2D!");
+                continue;
+            }
+            powerUpColliders.Add(col);
+        }
     }
     public void Tick() {
         if(GameState.goalReached) {

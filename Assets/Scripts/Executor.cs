@@ -7,6 +7,7 @@ using UnityEngine;
 public class Executor : MonoBehaviour {
     private Player player;
     private PlayerMovement playerMovement;
+    private PlayerPowers playerPowers;
     private InputManager inputManager;
     private LevelManager levelManager;
     private UIManager uiManager;
@@ -46,6 +47,8 @@ public class Executor : MonoBehaviour {
         player.Initialize();
         playerMovement = new PlayerMovement(player, inputManager);
         playerMovement.Initialize();
+        playerPowers = new PlayerPowers(player);
+        playerPowers.Initialize();
     }
 
     private void FixedUpdate() {
@@ -59,6 +62,7 @@ public class Executor : MonoBehaviour {
         if(isMenuState) return;
         inputManager.Tick();
         player.Tick();
+        playerPowers.Tick();
         levelManager.Tick();
     }
 

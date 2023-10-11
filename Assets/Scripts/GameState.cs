@@ -12,7 +12,7 @@ public class GameState {
     // MainMenu state and Play State are different!
     // On start of program we enter MainMenu (scene0). Then on hitting "Start" we go into Play State
 
-    public static void ResetStateVariables() {
+    private static void ResetStateVariables() {
         goalReached = false;
         playerIsDead = false;
     }

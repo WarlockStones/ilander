@@ -1,12 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-
-
-// The idea is to move away from Unity Components. Have as much as possible in pure C#
-// This is mostly recommended for large-scale projects. It is a bit overkill for a 2 week school assignment
 public class Player : ITick, IInitialize, ITerminate {
 
     private GameObject player;
@@ -17,38 +13,63 @@ public class Player : ITick, IInitialize, ITerminate {
 
     private LevelManager levelManager;
     private BoxCollider2D feet;
-    private CircleCollider2D hurtBox;
+    private CapsuleCollider2D hurtBox;
+    private CircleCollider2D pickUpCollider;
+    private List<BoxCollider2D> powerUpColliders;
 
     private bool touchedEndZone = false;
 
-    public Player(LevelManager levelManager) {
-        this.levelManager = levelManager;
+    // Only allow one active PowerUp at a time
+    public enum PowerUps {
+        NONE,
+        SHIELD,
     }
 
-    private void Start() {
+    public PowerUps availablePower = PowerUps.NONE;
+    public PowerUps activePower = PowerUps.NONE;
+
+    public Player(LevelManager levelManager) {
+        this.levelManager = levelManager;
+        this.powerUpColliders = levelManager.powerUpColliders;
     }
+
     public void Initialize() {
         var playerPrefab = Resources.Load<GameObject>("Player");
 
         player = GameObject.Instantiate(playerPrefab, levelManager.spawnPoint, new Quaternion());
         rb = player.GetComponent<Rigidbody2D>();
         feet = player.GetComponent<BoxCollider2D>();
-        hurtBox = player.GetComponent<CircleCollider2D>();
+        hurtBox = player.GetComponent<CapsuleCollider2D>();
+        pickUpCollider = player.GetComponent<CircleCollider2D>();
     }
 
     public void Tick() {
-        // Player manages itself. It checks if it is triggering an end. Then calls the levelManager to end
+        // Player manages itself. Puts flags in GameState which other classes can poll
         if(!touchedEndZone && feet.IsTouching(levelManager.endTrigger)) {
             Debug.Log("End reached! Disabling inputs!");
-            rb.gravityScale = 0.6f; // Gives better feeling. That of landing and not bouncing
+            rb.gravityScale = 0.6f; // Gives better feeling, that of landing and not bouncing
             GameState.goalReached = true;
             touchedEndZone = true;
         }
-        if(hurtBox.IsTouching(levelManager.groundCollider)) {
+
+        if(hurtBox.IsTouching(levelManager.groundCollider) && activePower != PowerUps.SHIELD) {
             GameState.playerIsDead = true;
         }
+
+        foreach(BoxCollider2D col in powerUpColliders) {
+            if(pickUpCollider.IsTouching(col)) {
+                col.gameObject.SetActive(false);
+                GetRandomPower();
+            }
+        }
+
     }
 
+    // To scale in the future with more PowerUps!
+    private void GetRandomPower() {
+        int power = UnityEngine.Random.Range(1, 2);
+        availablePower = (PowerUps)power;
+    }
 
     public void Terminate() {
     }

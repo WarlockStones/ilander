@@ -27,7 +27,7 @@ public class PlayerMovement : IInitialize, IFixedTick, ITerminate {
     }
 
     public void FixedTick() {
-        switch(inputManager.moveVector.x) {
+        switch(InputManager.moveVector.x) {
             case < 0:
                 // Move to the left
                 rb.AddForceAtPosition(thrusterL.right * -1, thrusterL.position);
@@ -37,7 +37,7 @@ public class PlayerMovement : IInitialize, IFixedTick, ITerminate {
                 rb.AddForceAtPosition(thrusterR.right, thrusterR.position);
                 break;
         }
-        if(inputManager.moveVector.y > 0) {
+        if(InputManager.moveVector.y > 0) {
             rb.AddForceAtPosition((rb.transform.up * 10f), rb.position);
         }
     }
