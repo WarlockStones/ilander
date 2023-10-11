@@ -23,10 +23,6 @@ public class Executor : MonoBehaviour {
         }
     }
 
-    private void Awake() {
-
-    }
-
     private void Start() {
         levelManager = new LevelManager();
         uiManager = new UIManager(levelManager);
@@ -50,7 +46,7 @@ public class Executor : MonoBehaviour {
         player.Initialize();
         playerCamera = new PlayerCamera(player);
         playerCamera.Initialize();
-        playerMovement = new PlayerMovement(player, inputManager);
+        playerMovement = new PlayerMovement(player);
         playerMovement.Initialize();
         playerPowers = new PlayerPowers(player);
         playerPowers.Initialize();

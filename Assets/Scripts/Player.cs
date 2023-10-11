@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class Player : ITick, IInitialize, ITerminate {
 
-    private GameObject player;
+    private GameObject playerGO;
 
     public Rigidbody2D rb { get; private set; }
+    public Transform transform;
 
     private Vector2 moveVector;
 
@@ -37,11 +38,12 @@ public class Player : ITick, IInitialize, ITerminate {
     public void Initialize() {
         var playerPrefab = Resources.Load<GameObject>("Player");
 
-        player = GameObject.Instantiate(playerPrefab, levelManager.spawnPoint, new Quaternion());
-        rb = player.GetComponent<Rigidbody2D>();
-        feet = player.GetComponent<BoxCollider2D>();
-        hurtBox = player.GetComponent<CapsuleCollider2D>();
-        pickUpCollider = player.GetComponent<CircleCollider2D>();
+        playerGO = GameObject.Instantiate(playerPrefab, levelManager.spawnPoint, new Quaternion());
+        rb = playerGO.GetComponent<Rigidbody2D>();
+        transform = playerGO.GetComponent<Transform>();
+        feet = playerGO.GetComponent<BoxCollider2D>();
+        hurtBox = playerGO.GetComponent<CapsuleCollider2D>();
+        pickUpCollider = playerGO.GetComponent<CircleCollider2D>();
     }
 
     public void Tick() {

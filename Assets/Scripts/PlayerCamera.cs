@@ -14,6 +14,6 @@ public class PlayerCamera : IInitialize {
         var virtualCamPrefab = Resources.Load<GameObject>("VirtualCamera");
         var virtualCam = UnityEngine.Object.Instantiate(virtualCamPrefab);
 
-        virtualCam.GetComponent<CinemachineVirtualCamera>().m_Follow = player.rb.transform;
+        virtualCam.GetComponent<CinemachineVirtualCamera>().m_Follow = player.transform;
     }
 }

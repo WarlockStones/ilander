@@ -43,13 +43,13 @@ public class Bunker : IInitialize, ITick {
             return;
         }
 
-        float dist = Vector3.Distance(bunker.transform.position, player.rb.position);
+        float dist = Vector3.Distance(bunker.transform.position, player.transform.position);
         if(dist > aggroRange) {
             return;
         }
 
         // Determines which turret should fire at the target. Using vector dot product!
-        var dotProd = Vector3.Dot(bunker.transform.position, player.rb.position);
+        var dotProd = Vector3.Dot(bunker.transform.position, player.transform.position);
         if(dotProd < 0) {
             activeCannon = bunker.transform.GetChild(0).transform; // Left
         }
@@ -60,7 +60,7 @@ public class Bunker : IInitialize, ITick {
         if(activeCannon == null) {
             return;
         }
-        Vector3 offset = player.rb.position - (Vector2)activeCannon.position;
+        Vector3 offset = player.transform.position - activeCannon.position;
         Quaternion lookAtRotation = Quaternion.LookRotation(Vector3.forward, offset);
         activeCannon.rotation = lookAtRotation;
 

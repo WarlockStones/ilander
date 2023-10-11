@@ -51,7 +51,5 @@ public class GameState {
         currentSceneIndex = scene.buildIndex;
         ResetStateVariables();
         InitExecutor();
-        // InitPlayState();
-        // Debug.Log("GameState is initializing an Executor and PlayState");
     }
 }

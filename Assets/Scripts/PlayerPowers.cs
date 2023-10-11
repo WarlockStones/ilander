@@ -7,6 +7,7 @@ using Object = UnityEngine.Object;
 // Then I can utilize it as a component on a prefab and check for OnTriggerEnter, etc.
 public class PlayerPowers : ITick, IInitialize {
     private Player player;
+    private Transform playerTransform;
     private GameObject powerObj;
     private SpriteRenderer powerSpriteRenderer;
 
@@ -20,6 +21,8 @@ public class PlayerPowers : ITick, IInitialize {
     }
 
     public void Initialize() {
+        playerTransform = player.transform;
+
         GameObject powerPrefab = Resources.Load<GameObject>("Power");
         powerObj = Object.Instantiate(powerPrefab);
         powerSpriteRenderer = powerObj.GetComponent<SpriteRenderer>();
@@ -35,7 +38,7 @@ public class PlayerPowers : ITick, IInitialize {
 
     public void Tick() {
         // Bubble is always around the player, it is just invisible at times
-        shieldObj.transform.position = player.rb.transform.position;
+        shieldObj.transform.position = player.transform.position;
 
         // What power is being held
         switch(player.availablePower) {
@@ -62,8 +65,9 @@ public class PlayerPowers : ITick, IInitialize {
     private float freq = 4.0f;
     private void AnimateHeldPower() {
         // Move power around player using cos and sin
-        float x = player.rb.position.x + (Mathf.Cos(Time.time * freq) * amp);
-        float y = player.rb.position.y + (Mathf.Sin(Time.time * freq) * amp);
+        Vector3 playerPos = playerTransform.position;
+        float x = playerPos.x + (Mathf.Cos(Time.time * freq) * amp);
+        float y = playerPos.y + (Mathf.Sin(Time.time * freq) * amp);
         powerObj.transform.position = new Vector3(x, y, 0);
     }
 
